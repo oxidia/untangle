@@ -1,4 +1,4 @@
-package com.youftek.untangle.ui.theme
+package com.youftek.untangle.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
