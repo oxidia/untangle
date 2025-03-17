@@ -57,6 +57,7 @@ fun GameScreen(
             onKeyboardDone = { gameViewModel.checkUserGuess() },
             currentScrambledWord = gameUiState.currentScrambledWord,
             isGuessWrong = gameUiState.isGuessedWordWrong,
+            isLoading = gameUiState.isLoading,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
@@ -71,6 +72,7 @@ fun GameScreen(
         ) {
 
             Button(
+                enabled = !gameUiState.isLoading,
                 modifier = Modifier.fillMaxWidth(),
                 onClick = { gameViewModel.checkUserGuess() }
             ) {

@@ -5,12 +5,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme.shapes
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -31,6 +33,7 @@ fun GameCard(
     retriesCount: Int,
     isGuessWrong: Boolean,
     userGuess: String,
+    isLoading: Boolean,
     onUserGuessChanged: (String) -> Unit,
     onKeyboardDone: () -> Unit,
     modifier: Modifier = Modifier
@@ -56,16 +59,28 @@ fun GameCard(
                 style = typography.titleMedium,
                 color = colorScheme.onPrimary
             )
-            Text(
-                text = currentScrambledWord,
-                style = typography.displayMedium
-            )
+
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.width(20.dp),
+                    strokeWidth = 2.dp,
+                    color = colorScheme.secondary,
+                    trackColor = colorScheme.surfaceVariant,
+                )
+            } else {
+                Text(
+                    text = currentScrambledWord,
+                    style = typography.displayMedium
+                )
+            }
+
             Text(
                 text = stringResource(R.string.instructions),
                 textAlign = TextAlign.Center,
                 style = typography.titleMedium
             )
             OutlinedTextField(
+                enabled = !isLoading,
                 value = userGuess,
                 singleLine = true,
                 shape = shapes.large,
