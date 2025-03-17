@@ -77,7 +77,7 @@ fun GameScreen(
                 onClick = { gameViewModel.checkUserGuess() }
             ) {
                 Text(
-                    text = stringResource(R.string.submit),
+                    text = stringResource(R.string.verify),
                     fontSize = 16.sp
                 )
             }

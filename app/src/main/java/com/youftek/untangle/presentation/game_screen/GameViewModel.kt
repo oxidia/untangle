@@ -33,7 +33,9 @@ class GameViewModel @Inject constructor(
     }
 
     fun checkUserGuess() {
-        state = if (state.userGuess != state.wordOfTheDay) {
+        val userGuess = state.userGuess.trim().lowercase()
+
+        state = if (userGuess != state.wordOfTheDay) {
             state.copy(
                 triesCount = state.triesCount + 1,
                 isGuessedWordWrong = true,
