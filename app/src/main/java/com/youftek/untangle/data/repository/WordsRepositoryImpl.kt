@@ -1,8 +1,8 @@
 package com.youftek.untangle.data.repository
 
 import com.youftek.untangle.data.mappers.toTodayWord
-import com.youftek.untangle.data.remote.WordsApi
-import com.youftek.untangle.domain.TodayWord
+import com.youftek.untangle.data.remote.words_api.WordsApi
+import com.youftek.untangle.domain.model.TodayWord
 import com.youftek.untangle.domain.repository.WordsRepository
 import com.youftek.untangle.util.Resource
 import kotlinx.coroutines.flow.Flow

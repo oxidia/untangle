@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.youftek.untangle.domain.repository.DictionaryRepository
 import com.youftek.untangle.domain.repository.WordsRepository
 import com.youftek.untangle.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GameViewModel @Inject constructor(
     private val wordsRepository: WordsRepository,
+    private val dictionaryRepository: DictionaryRepository,
 ) : ViewModel() {
 
     var state by mutableStateOf(GameUiState())
@@ -40,8 +42,15 @@ class GameViewModel @Inject constructor(
             state.copy(
                 isGameOver = true,
                 isGuessedWordWrong = false,
+                isDialogVisible = true,
             )
         }
+    }
+
+    fun hideDialog() {
+        state = state.copy(
+            isDialogVisible = false,
+        )
     }
 
     private fun initTheWordOfToday() {
@@ -65,6 +74,8 @@ class GameViewModel @Inject constructor(
                             currentScrambledWord = String(charArray),
                             isLoading = false
                         )
+
+                        initWordOverview(word)
                     }
 
                     is Resource.Error -> {
@@ -74,6 +85,23 @@ class GameViewModel @Inject constructor(
                         )
                     }
                 }
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun initWordOverview(word: String) {
+        dictionaryRepository.getWordOverview(word)
+            .onEach {
+                when (it) {
+                    is Resource.Success -> {
+                        state = state.copy(
+                            wordOverview = it.data
+                        )
+                    }
+
+                    else -> Unit
+                }
+
             }
             .launchIn(viewModelScope)
     }

@@ -1,4 +1,4 @@
-package com.youftek.untangle.data.remote.dto
+package com.youftek.untangle.data.remote.words_api.dto
 
 data class TodayWordDto(
     val word: String,

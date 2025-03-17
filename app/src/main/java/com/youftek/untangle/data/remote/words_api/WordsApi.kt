@@ -1,6 +1,6 @@
-package com.youftek.untangle.data.remote
+package com.youftek.untangle.data.remote.words_api
 
-import com.youftek.untangle.data.remote.dto.TodayWordDto
+import com.youftek.untangle.data.remote.words_api.dto.TodayWordDto
 import retrofit2.http.GET
 
 interface WordsApi {

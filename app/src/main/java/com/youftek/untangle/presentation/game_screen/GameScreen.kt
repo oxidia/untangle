@@ -1,7 +1,9 @@
 package com.youftek.untangle.presentation.game_screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
@@ -11,16 +13,21 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.youftek.untangle.R
 import com.youftek.untangle.presentation.game_screen.components.GameCard
+import com.youftek.untangle.presentation.game_screen.components.WordOverviewDisplay
 
 @Composable
 fun GameScreen(
@@ -73,9 +80,42 @@ fun GameScreen(
                 )
             }
         }
+    }
 
-        if (gameUiState.isGameOver) {
-            // display word overview
+    if (gameUiState.isGameOver && gameUiState.isDialogVisible) {
+        Dialog(
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                usePlatformDefaultWidth = false
+            ),
+            onDismissRequest = {
+                gameViewModel.hideDialog()
+            },
+        ) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        color = Color.White,
+                    )
+                    .padding(
+                        horizontal = 16.dp,
+                        vertical = 16.dp,
+                    )
+            ) {
+                Column (
+                    modifier = Modifier.background(
+                        color = Color.White,
+                    )
+                ) {
+                    WordOverviewDisplay(
+                        wordOverview = gameUiState.wordOverview!!,
+                        onBackClick = {
+                            gameViewModel.hideDialog()
+                        }
+                    )
+                }
+            }
         }
     }
 }
