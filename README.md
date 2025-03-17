@@ -22,3 +22,5 @@
 - Retrofit
 
 ## Demo Video
+
+<video src="https://github.com/user-attachments/assets/0758d1dc-5a2d-4c53-9734-483b174f9a4a" controls></video>
