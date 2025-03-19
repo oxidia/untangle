@@ -23,4 +23,4 @@
 
 ## Demo Video
 
-<video src="https://github.com/user-attachments/assets/0758d1dc-5a2d-4c53-9734-483b174f9a4a" controls></video>
+<video src="https://github.com/user-attachments/assets/f307949e-0f7c-4693-948d-7551f45fa554" controls></video>
