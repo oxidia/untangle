@@ -13,4 +13,5 @@ data class GameUiState(
     val errorMessage: String = "",
     val isGameOver: Boolean = false,
     val isDialogVisible: Boolean = false,
+    val randomXPositions: List<Int> = emptyList(),
 )

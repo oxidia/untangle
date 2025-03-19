@@ -13,6 +13,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+const val SQUARE_SIZE = 50
+
 @HiltViewModel
 class GameViewModel @Inject constructor(
     private val wordsRepository: WordsRepository,
@@ -33,7 +35,8 @@ class GameViewModel @Inject constructor(
     }
 
     fun checkUserGuess() {
-        val userGuess = state.userGuess.trim().lowercase()
+        val userGuess = state.userGuess.trim()
+            .lowercase()
 
         state = if (userGuess != state.wordOfTheDay) {
             state.copy(
@@ -44,7 +47,6 @@ class GameViewModel @Inject constructor(
             state.copy(
                 isGameOver = true,
                 isGuessedWordWrong = false,
-                isDialogVisible = true,
             )
         }
     }
@@ -52,6 +54,12 @@ class GameViewModel @Inject constructor(
     fun hideDialog() {
         state = state.copy(
             isDialogVisible = false,
+        )
+    }
+
+    fun showDialog() {
+        state = state.copy(
+            isDialogVisible = true,
         )
     }
 
@@ -74,6 +82,7 @@ class GameViewModel @Inject constructor(
                         state = state.copy(
                             wordOfTheDay = word,
                             currentScrambledWord = String(charArray),
+                            randomXPositions = generateXPositions(word),
                             isLoading = false
                         )
 
@@ -106,5 +115,13 @@ class GameViewModel @Inject constructor(
 
             }
             .launchIn(viewModelScope)
+    }
+
+    private fun generateXPositions(word: String): List<Int> {
+        return word.toCharArray()
+            .mapIndexed { index, _ ->
+                index * SQUARE_SIZE
+            }
+            .shuffled()
     }
 }

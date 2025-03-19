@@ -3,6 +3,7 @@ package com.youftek.untangle.presentation.game_screen.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -29,13 +30,16 @@ import com.youftek.untangle.R
 
 @Composable
 fun GameCard(
-    currentScrambledWord: String,
+    word: String,
+    randomXPositions: List<Int>,
     retriesCount: Int,
     isGuessWrong: Boolean,
+    isGameOver: Boolean,
     userGuess: String,
     isLoading: Boolean,
     onUserGuessChanged: (String) -> Unit,
     onKeyboardDone: () -> Unit,
+    onAnimationFinished: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val mediumPadding = 16.dp
@@ -68,10 +72,16 @@ fun GameCard(
                     trackColor = colorScheme.surfaceVariant,
                 )
             } else {
-                Text(
-                    text = currentScrambledWord,
-                    style = typography.displayMedium
-                )
+                Row(
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    AnimatedWord(
+                        xPositions = randomXPositions,
+                        word = word,
+                        isShuffled = !isGameOver,
+                        onAnimationFinished = onAnimationFinished
+                    )
+                }
             }
 
             Text(

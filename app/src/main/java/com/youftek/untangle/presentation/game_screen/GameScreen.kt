@@ -54,10 +54,19 @@ fun GameScreen(
             onUserGuessChanged = { gameViewModel.updateUserGuess(it) },
             retriesCount = gameUiState.triesCount,
             userGuess = gameUiState.userGuess,
-            onKeyboardDone = { gameViewModel.checkUserGuess() },
-            currentScrambledWord = gameUiState.currentScrambledWord,
+            onKeyboardDone = {
+                if (gameUiState.isGameOver) {
+                    gameViewModel.showDialog()
+                } else {
+                    gameViewModel.checkUserGuess()
+                }
+            },
+            word = gameUiState.wordOfTheDay,
+            isGameOver = gameUiState.isGameOver,
+            randomXPositions = gameUiState.randomXPositions,
             isGuessWrong = gameUiState.isGuessedWordWrong,
             isLoading = gameUiState.isLoading,
+            onAnimationFinished = { gameViewModel.showDialog() },
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
@@ -74,7 +83,13 @@ fun GameScreen(
             Button(
                 enabled = !gameUiState.isLoading,
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { gameViewModel.checkUserGuess() }
+                onClick = {
+                    if (gameUiState.isGameOver) {
+                        gameViewModel.showDialog()
+                    } else {
+                        gameViewModel.checkUserGuess()
+                    }
+                }
             ) {
                 Text(
                     text = stringResource(R.string.verify),
@@ -105,7 +120,7 @@ fun GameScreen(
                         vertical = 16.dp,
                     )
             ) {
-                Column (
+                Column(
                     modifier = Modifier.background(
                         color = Color.White,
                     )
